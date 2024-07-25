@@ -1,0 +1,36 @@
+resource "oci_load_balancer" "Load_Balancer" {
+  compartment_id = var.compartment_id
+  display_name   = "my-load-balancer"
+  shape          = "100Mbps"
+  subnet_ids     = [oci_core_subnet.my_subnet.id]
+
+  backend_set {
+    name   = "example_backend_set"
+    policy = "ROUND_ROBIN"
+    health_checker {
+      protocol     = "HTTP"
+      url_path     = "/healthcheck"
+      port         = 80
+      return_code  = 200
+    }
+
+    backend {
+      ip_address = "10.0.0.1"
+      port       = 80
+    }
+  }
+
+  listener {
+    name           = "example_listener"
+    default_backend_set_name = "example_backend_set"
+    protocol       = "HTTP"
+    port           = 80
+  }
+
+  ip_addresses {
+    ip_address = "public"
+    is_public  = true
+  }
+
+  # Other necessary configuration parameters
+}
