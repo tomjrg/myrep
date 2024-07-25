@@ -1,3 +1,4 @@
-#Ignore .txt file
-file.txt.txt
+#Ignore txt file
+
+file.txt
 my_resources/Untitled.txt.txt
